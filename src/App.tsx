@@ -13,7 +13,6 @@ import LanguageSelection from "./pages/auth/LanguageSelection";
 // Main App Pages
 import Home from "./pages/app/Home";
 import CropDiseaseDetection from "./pages/app/CropDiseaseDetection";
-import Store from "./pages/app/Store";
 import Community from "./pages/app/Community";
 import Profile from "./pages/app/Profile";
 import ChatSupport from "./pages/app/ChatSupport";
@@ -51,7 +50,6 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
       <Route path="/crop-disease" element={<ProtectedRoute><CropDiseaseDetection /></ProtectedRoute>} />
-      <Route path="/store" element={<ProtectedRoute><Store /></ProtectedRoute>} />
       <Route path="/community" element={<ProtectedRoute><Community /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       <Route path="/chat-support" element={<ProtectedRoute><ChatSupport /></ProtectedRoute>} />

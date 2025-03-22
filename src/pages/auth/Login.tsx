@@ -16,10 +16,11 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!phone || phone.length < 10) {
+    // Validate phone number (exactly 10 digits)
+    if (!phone || phone.length !== 10 || !/^\d{10}$/.test(phone)) {
       toast({
         title: "Invalid Phone Number",
-        description: "Please enter a valid phone number.",
+        description: "Please enter a valid 10-digit phone number.",
         variant: "destructive",
       });
       return;
@@ -72,8 +73,9 @@ const Login = () => {
                   type="tel"
                   placeholder="Enter your phone number"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                   className="pl-12 h-12 focus:ring-2 focus:border-agri-green ring-agri-green/20"
+                  maxLength={10}
                   required
                 />
                 <div className="absolute inset-y-0 left-0 flex items-center px-3 pointer-events-none text-muted-foreground">
@@ -81,7 +83,7 @@ const Login = () => {
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
-                Enter your phone number to continue
+                Enter your 10-digit phone number to continue
               </p>
             </div>
             

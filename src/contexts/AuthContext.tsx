@@ -7,10 +7,11 @@ export interface User {
   id: string;
   phone: string;
   name?: string;
+  email?: string;
   language?: string;
   profileImage?: string;
   location?: string;
-  selectedCrops?: string[];
+  soilType?: string;
 }
 
 // Context type
