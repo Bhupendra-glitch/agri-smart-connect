@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Bell, Menu, X } from 'lucide-react';
+import { Bell, Leaf, Menu, MessageCircle, X } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -34,7 +33,6 @@ const AppHeader = ({
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   useEffect(() => {
-    // Mock notification status
     setHasNotifications(true);
 
     const handleScroll = () => {
@@ -131,7 +129,6 @@ const AppHeader = ({
         </div>
       </div>
 
-      {/* Notifications Dialog */}
       <Dialog open={notificationOpen} onOpenChange={setNotificationOpen}>
         <DialogContent>
           <DialogHeader>
@@ -261,3 +258,4 @@ const LogoutButton = () => {
 };
 
 export default AppHeader;
+
