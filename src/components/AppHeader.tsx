@@ -7,6 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogTitle, 
+  DialogDescription, 
+  DialogHeader,
+  DialogFooter
+} from '@/components/ui/dialog';
 
 interface AppHeaderProps {
   title?: string;
@@ -23,6 +31,7 @@ const AppHeader = ({
   const { user } = useAuth();
   const [hasNotifications, setHasNotifications] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
 
   useEffect(() => {
     // Mock notification status
@@ -77,7 +86,6 @@ const AppHeader = ({
                   <MenuItem onClick={() => navigate('/')} icon="home" label="Home" />
                   <MenuItem onClick={() => navigate('/profile')} icon="user" label="Profile" />
                   <MenuItem onClick={() => navigate('/crop-disease')} icon="leaf" label="Crop Doctor" />
-                  <MenuItem onClick={() => navigate('/store')} icon="shopping-bag" label="Agri Store" />
                   <MenuItem onClick={() => navigate('/community')} icon="users" label="Community" />
                   <MenuItem onClick={() => navigate('/chat-support')} icon="message-circle" label="Chat Support" />
                   <MenuItem onClick={() => navigate('/crop-care')} icon="sprout" label="Crop Care" />
@@ -99,7 +107,7 @@ const AppHeader = ({
               variant="ghost" 
               size="icon" 
               className="relative text-foreground hover:bg-background/50"
-              onClick={() => navigate('/notifications')}
+              onClick={() => setNotificationOpen(true)}
             >
               <Bell size={22} />
               {hasNotifications && (
@@ -122,6 +130,44 @@ const AppHeader = ({
           </Button>
         </div>
       </div>
+
+      {/* Notifications Dialog */}
+      <Dialog open={notificationOpen} onOpenChange={setNotificationOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Notifications</DialogTitle>
+            <DialogDescription>
+              Your recent updates and alerts will appear here
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div className="flex gap-3 p-3 border-b border-border pb-3">
+              <div className="bg-agri-green/10 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <Leaf className="h-5 w-5 text-agri-green" />
+              </div>
+              <div>
+                <h4 className="font-medium text-sm">Crop Health Update</h4>
+                <p className="text-sm text-muted-foreground">New recommendations for your crops are available</p>
+                <p className="text-xs text-muted-foreground mt-1">2 hours ago</p>
+              </div>
+            </div>
+            <div className="flex gap-3 p-3 border-b border-border pb-3">
+              <div className="bg-blue-500/10 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <Bell className="h-5 w-5 text-blue-500" />
+              </div>
+              <div>
+                <h4 className="font-medium text-sm">Weather Alert</h4>
+                <p className="text-sm text-muted-foreground">Heavy rain expected in your region tomorrow</p>
+                <p className="text-xs text-muted-foreground mt-1">5 hours ago</p>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setNotificationOpen(false)}>Close</Button>
+            <Button onClick={() => setNotificationOpen(false)}>Mark all as read</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };

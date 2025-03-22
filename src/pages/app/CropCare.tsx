@@ -4,14 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AppLayout from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Sprout, Search, ArrowLeft } from 'lucide-react';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Search, ArrowLeft } from 'lucide-react';
 
 const crops = [
   {
@@ -23,8 +16,7 @@ const crops = [
     soilType: 'Clay loam',
     fertilizers: ['Urea', 'DAP', 'Potash'],
     commonDiseases: ['Rice blast', 'Bacterial leaf blight', 'Sheath blight'],
-    growthDuration: '120-150 days',
-    image: 'https://images.unsplash.com/photo-1536054695850-b7fa42273826?q=80&w=200&auto=format&fit=crop'
+    growthDuration: '120-150 days'
   },
   {
     id: 'wheat',
@@ -35,8 +27,7 @@ const crops = [
     soilType: 'Loam to clay loam',
     fertilizers: ['Urea', 'DAP', 'Zinc sulphate'],
     commonDiseases: ['Rust', 'Smut', 'Powdery mildew'],
-    growthDuration: '100-150 days',
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6962f4?q=80&w=200&auto=format&fit=crop'
+    growthDuration: '100-150 days'
   },
   {
     id: 'cotton',
@@ -47,8 +38,7 @@ const crops = [
     soilType: 'Black soil, alluvial soil',
     fertilizers: ['Urea', 'SSP', 'Potash'],
     commonDiseases: ['Bollworm', 'Wilt', 'Leaf curl virus'],
-    growthDuration: '150-180 days',
-    image: 'https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?q=80&w=200&auto=format&fit=crop'
+    growthDuration: '150-180 days'
   }
 ];
 
@@ -91,29 +81,12 @@ const CropCare = () => {
               />
               <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" />
             </div>
-            <Select value={selectedCrop} onValueChange={setSelectedCrop}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select crop" />
-              </SelectTrigger>
-              <SelectContent>
-                {crops.map(crop => (
-                  <SelectItem key={crop.id} value={crop.id}>{crop.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
           
           {selectedCropData ? (
             <div className="animate-fade-in">
               <div className="flex flex-col sm:flex-row gap-4 mb-4">
-                <div className="sm:w-1/3 h-40 rounded-lg overflow-hidden">
-                  <img 
-                    src={selectedCropData.image} 
-                    alt={selectedCropData.name} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="sm:w-2/3">
+                <div className="sm:w-full">
                   <h2 className="text-xl font-bold mb-1">{selectedCropData.name}</h2>
                   <p className="text-sm text-muted-foreground italic mb-2">{selectedCropData.scientificName}</p>
                   
@@ -183,9 +156,6 @@ const CropCare = () => {
                     className="flex items-center gap-3 p-3 glass-card rounded-lg cursor-pointer hover:shadow-md transition-all"
                     onClick={() => setSelectedCrop(crop.id)}
                   >
-                    <div className="h-12 w-12 bg-agri-green/10 rounded-full flex items-center justify-center">
-                      <Sprout className="h-6 w-6 text-agri-green" />
-                    </div>
                     <div>
                       <h3 className="font-medium">{crop.name}</h3>
                       <p className="text-xs text-muted-foreground">{crop.scientificName}</p>

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import AppHeader from '@/components/AppHeader';
 import { useNavigate } from 'react-router-dom';
-import { Home, Leaf, ShoppingBag, Users, MessageCircle } from 'lucide-react';
+import { Home, Leaf, Users, MessageCircle } from 'lucide-react';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -65,12 +65,6 @@ const AppLayout = ({
                 label="Doctor" 
                 isActive={activeTab === 'doctor'}
                 onClick={() => navigate('/crop-disease')}
-              />
-              <NavButton 
-                icon={<ShoppingBag size={22} />} 
-                label="Store" 
-                isActive={activeTab === 'store'}
-                onClick={() => navigate('/store')}
               />
               <NavButton 
                 icon={<Users size={22} />} 
