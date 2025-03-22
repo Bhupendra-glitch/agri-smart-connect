@@ -22,7 +22,24 @@ interface AuthContextType {
   updateProfile: (userData: Partial<User>) => Promise<void>;
   logout: () => void;
   setLanguage: (language: string) => void;
+  getLanguageName: (code: string) => string;
 }
+
+// Language data
+export const languages = [
+  { code: 'en', name: 'English', nativeName: 'English' },
+  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
+  { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
+  { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી' },
+  { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
+  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు' },
+  { code: 'kn', name: 'Kannada', nativeName: 'ಕನ್ನಡ' },
+  { code: 'ml', name: 'Malayalam', nativeName: 'മലയാളം' },
+  { code: 'pa', name: 'Punjabi', nativeName: 'ਪੰਜਾਬੀ' },
+  { code: 'bn', name: 'Bengali', nativeName: 'বাংলা' },
+  { code: 'or', name: 'Odia', nativeName: 'ଓଡ଼ିଆ' },
+  { code: 'as', name: 'Assamese', nativeName: 'অসমীয়া' },
+];
 
 // Create context
 const AuthContext = createContext<AuthContextType>({
@@ -32,6 +49,7 @@ const AuthContext = createContext<AuthContextType>({
   updateProfile: async () => {},
   logout: () => {},
   setLanguage: () => {},
+  getLanguageName: () => "",
 });
 
 // Provider component
@@ -60,6 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const newUser: User = {
         id: Math.random().toString(36).substring(2, 15),
         phone: phone,
+        language: 'en', // Default language
       };
       
       setUser(newUser);
@@ -100,12 +119,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Get language name from code
+  const getLanguageName = (code: string): string => {
+    const language = languages.find(lang => lang.code === code);
+    return language ? language.name : "English";
+  };
+
   // Set language preference
   const setLanguage = (language: string) => {
     if (user) {
       const updatedUser = { ...user, language };
       setUser(updatedUser);
       localStorage.setItem('agriSmartUser', JSON.stringify(updatedUser));
+      
+      toast({
+        title: "Language Updated",
+        description: `Language has been set to ${getLanguageName(language)}`,
+      });
     }
   };
 
@@ -122,7 +152,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       login, 
       updateProfile, 
       logout,
-      setLanguage
+      setLanguage,
+      getLanguageName
     }}>
       {children}
     </AuthContext.Provider>

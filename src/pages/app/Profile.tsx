@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppLayout from '@/components/AppLayout';
@@ -9,12 +8,15 @@ import {
   User, Mail, Phone, MapPin, LogOut, 
   Languages, Settings, ChevronRight 
 } from 'lucide-react';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 const Profile = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const handleLogout = () => {
+    setIsLoggingOut(true);
     logout();
     navigate('/login');
   };
@@ -38,7 +40,7 @@ const Profile = () => {
   };
   
   return (
-    <AppLayout title="Profile" activeTab="home">
+    <AppLayout title="Profile" activeTab="profile">
       <div className="pt-4 pb-20">
         <div className="glass-card rounded-xl overflow-hidden mb-6">
           <div className="relative">
@@ -66,80 +68,44 @@ const Profile = () => {
           </div>
         </div>
         
-        <div className="space-y-4">
-          {/* Profile Info */}
-          <div className="glass-card rounded-xl overflow-hidden">
-            <div className="p-4 border-b border-b-border">
-              <h2 className="text-lg font-medium">Profile Information</h2>
-            </div>
-            
-            <div className="p-4 space-y-4">
-              <ProfileItem 
-                icon={<User className="h-5 w-5 text-agri-green" />}
-                label="Full Name"
-                value={user?.name || 'Not set'}
-              />
-              
-              <ProfileItem 
-                icon={<Phone className="h-5 w-5 text-agri-green" />}
-                label="Phone Number"
-                value={user?.phone ? `+91 ${user.phone}` : 'Not available'}
-              />
-              
-              <ProfileItem 
-                icon={<MapPin className="h-5 w-5 text-agri-green" />}
-                label="Location"
-                value={user?.location || 'Not set'}
-              />
-              
-              <ProfileItem 
-                icon={<Languages className="h-5 w-5 text-agri-green" />}
-                label="Language"
-                value={getLanguageName(user?.language)}
-              />
-            </div>
-          </div>
+        <div className="space-y-6 mb-6">
+          <h2 className="text-xl font-bold">Settings</h2>
           
-          {/* Settings */}
-          <div className="glass-card rounded-xl overflow-hidden">
-            <div className="p-4 border-b border-b-border">
-              <h2 className="text-lg font-medium">Settings</h2>
-            </div>
+          <div className="space-y-4">
+            <LanguageSelector />
             
-            <div>
-              <button 
-                className="flex items-center justify-between w-full p-4 border-b border-b-border hover:bg-muted/30 transition-colors"
-                onClick={() => navigate('/language-selection')}
-              >
-                <div className="flex items-center">
-                  <Languages className="h-5 w-5 text-agri-green mr-3" />
-                  <span>Change Language</span>
-                </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </button>
-              
-              <button 
-                className="flex items-center justify-between w-full p-4 border-b border-b-border hover:bg-muted/30 transition-colors"
-                onClick={() => navigate('/profile-setup')}
-              >
-                <div className="flex items-center">
-                  <Settings className="h-5 w-5 text-agri-green mr-3" />
-                  <span>Edit Profile</span>
-                </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </button>
-              
-              <button 
-                className="flex items-center justify-between w-full p-4 text-red-500 hover:bg-red-500/10 transition-colors"
-                onClick={handleLogout}
-              >
-                <div className="flex items-center">
-                  <LogOut className="h-5 w-5 mr-3" />
-                  <span>Logout</span>
-                </div>
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
+            <ProfileItem 
+              icon={<User className="h-5 w-5 text-agri-green" />}
+              label="Full Name"
+              value={user?.name || 'Not set'}
+            />
+            
+            <ProfileItem 
+              icon={<Phone className="h-5 w-5 text-agri-green" />}
+              label="Phone Number"
+              value={user?.phone ? `+91 ${user.phone}` : 'Not available'}
+            />
+            
+            <ProfileItem 
+              icon={<MapPin className="h-5 w-5 text-agri-green" />}
+              label="Location"
+              value={user?.location || 'Not set'}
+            />
+            
+            <ProfileItem 
+              icon={<Languages className="h-5 w-5 text-agri-green" />}
+              label="Language"
+              value={getLanguageName(user?.language)}
+            />
+            
+            <Button 
+              variant="destructive" 
+              className="w-full" 
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              {isLoggingOut ? 'Logging out...' : 'Logout'}
+            </Button>
           </div>
         </div>
       </div>

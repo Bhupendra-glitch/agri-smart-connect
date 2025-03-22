@@ -3,31 +3,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth, languages } from '@/contexts/AuthContext';
 import { Check } from 'lucide-react';
 
-interface Language {
-  code: string;
-  name: string;
-  nativeName: string;
-}
-
-const languages: Language[] = [
-  { code: 'en', name: 'English', nativeName: 'English' },
-  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
-  { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
-  { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી' },
-  { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
-  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు' },
-  { code: 'kn', name: 'Kannada', nativeName: 'ಕನ್ನಡ' },
-  { code: 'ml', name: 'Malayalam', nativeName: 'മലയാളം' },
-  { code: 'pa', name: 'Punjabi', nativeName: 'ਪੰਜਾਬੀ' },
-];
-
 const LanguageSelection = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
+  const { user, setLanguage } = useAuth();
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(user?.language || 'en');
   const [isLoading, setIsLoading] = useState(false);
-  const { setLanguage } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -50,7 +32,12 @@ const LanguageSelection = () => {
         description: `Your language preference has been saved.`,
       });
       
-      navigate('/');
+      // If user is coming from profile setup, go to home, otherwise go back to previous page
+      if (location.pathname.includes('profile-setup')) {
+        navigate('/');
+      } else {
+        navigate(-1);
+      }
     } catch (error) {
       console.error('Language setting error:', error);
       toast({
@@ -79,7 +66,7 @@ const LanguageSelection = () => {
         </div>
         
         <div className="glass-card p-6 rounded-2xl mb-6">
-          <div className="grid grid-cols-1 gap-3 mb-6">
+          <div className="grid grid-cols-1 gap-3 mb-6 max-h-[400px] overflow-y-auto">
             {languages.map((lang) => (
               <button
                 key={lang.code}
