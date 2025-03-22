@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 
 // Auth Pages
 import Login from "./pages/auth/Login";
-import OTP from "./pages/auth/OTP";
 import ProfileSetup from "./pages/auth/ProfileSetup";
 import LanguageSelection from "./pages/auth/LanguageSelection";
 
@@ -68,7 +67,6 @@ const UnAuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/otp" element={<OTP />} />
       <Route path="/profile-setup" element={<ProfileSetup />} />
       <Route path="/language-selection" element={<LanguageSelection />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
@@ -108,7 +106,6 @@ const App = () => {
             <div className="min-h-screen">
               <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/otp" element={<OTP />} />
                 <Route path="/profile-setup" element={<ProfileSetup />} />
                 <Route path="/language-selection" element={<LanguageSelection />} />
                 <Route path="/*" element={<AuthenticatedApp />} />

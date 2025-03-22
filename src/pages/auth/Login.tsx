@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 const Login = () => {
   const [phone, setPhone] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -28,7 +28,13 @@ const Login = () => {
     try {
       setIsLoading(true);
       await login(phone);
-      navigate('/otp');
+      
+      // Navigate directly to profile setup if user doesn't have a name yet
+      if (user && !user.name) {
+        navigate('/profile-setup');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       console.error('Login error:', error);
       toast({
@@ -75,7 +81,7 @@ const Login = () => {
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
-                We'll send you a verification code to this number
+                Enter your phone number to continue
               </p>
             </div>
             
@@ -84,7 +90,7 @@ const Login = () => {
               className="w-full h-12 bg-agri-green hover:bg-agri-green-dark text-white font-medium"
               disabled={isLoading}
             >
-              {isLoading ? "Sending OTP..." : "Continue"}
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
           </form>
         </div>

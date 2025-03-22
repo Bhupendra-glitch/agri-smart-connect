@@ -18,7 +18,6 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   login: (phone: string) => Promise<void>;
-  verifyOTP: (otp: string) => Promise<boolean>;
   updateProfile: (userData: Partial<User>) => Promise<void>;
   logout: () => void;
   setLanguage: (language: string) => void;
@@ -29,7 +28,6 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: true,
   login: async () => {},
-  verifyOTP: async () => false,
   updateProfile: async () => {},
   logout: () => {},
   setLanguage: () => {},
@@ -39,7 +37,6 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [tempPhone, setTempPhone] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -51,13 +48,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  // Login function - in a real app, this would call an API
+  // Login function - simplified to remove OTP flow
   const login = async (phone: string) => {
     try {
       setIsLoading(true);
       // For MVP, we'll simulate API call with timeout
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setTempPhone(phone);
+      
+      // Create new user directly (no OTP verification)
+      const newUser: User = {
+        id: Math.random().toString(36).substring(2, 15),
+        phone: phone,
+      };
+      
+      setUser(newUser);
+      localStorage.setItem('agriSmartUser', JSON.stringify(newUser));
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -67,43 +72,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         variant: "destructive",
       });
       throw error;
-    }
-  };
-
-  // Verify OTP - in a real app, this would call an API
-  const verifyOTP = async (otp: string): Promise<boolean> => {
-    try {
-      setIsLoading(true);
-      // For MVP, we'll simulate API call with timeout
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      // For demo, any 4-digit OTP is valid
-      if (otp.length === 4) {
-        const newUser: User = {
-          id: Math.random().toString(36).substring(2, 15),
-          phone: tempPhone,
-        };
-        setUser(newUser);
-        localStorage.setItem('agriSmartUser', JSON.stringify(newUser));
-        setIsLoading(false);
-        return true;
-      } else {
-        setIsLoading(false);
-        toast({
-          title: "Invalid OTP",
-          description: "Please enter a valid 4-digit OTP.",
-          variant: "destructive",
-        });
-        return false;
-      }
-    } catch (error) {
-      setIsLoading(false);
-      toast({
-        title: "Error",
-        description: "Failed to verify OTP. Please try again.",
-        variant: "destructive",
-      });
-      return false;
     }
   };
 
@@ -151,7 +119,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       user, 
       isLoading, 
       login, 
-      verifyOTP, 
       updateProfile, 
       logout,
       setLanguage
