@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppLayout from '@/components/AppLayout';
@@ -11,7 +12,7 @@ import {
 import { LanguageSelector } from '@/components/LanguageSelector';
 
 const Profile = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, getLanguageName } = useAuth();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -19,24 +20,6 @@ const Profile = () => {
     setIsLoggingOut(true);
     logout();
     navigate('/login');
-  };
-  
-  const getLanguageName = (code: string | undefined) => {
-    if (!code) return 'English';
-    
-    const languages: Record<string, string> = {
-      en: 'English',
-      hi: 'Hindi',
-      mr: 'Marathi',
-      gu: 'Gujarati',
-      ta: 'Tamil',
-      te: 'Telugu',
-      kn: 'Kannada',
-      ml: 'Malayalam',
-      pa: 'Punjabi',
-    };
-    
-    return languages[code] || 'English';
   };
   
   return (
@@ -95,7 +78,7 @@ const Profile = () => {
             <ProfileItem 
               icon={<Languages className="h-5 w-5 text-agri-green" />}
               label="Language"
-              value={getLanguageName(user?.language)}
+              value={getLanguageName(user?.language || 'en')}
             />
             
             <Button 

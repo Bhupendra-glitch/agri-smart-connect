@@ -62,7 +62,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Check if user is stored in local storage
     const storedUser = localStorage.getItem('anajikaUser');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Error parsing user from localStorage:", e);
+        localStorage.removeItem('anajikaUser');
+      }
     }
     setIsLoading(false);
   }, []);
@@ -121,12 +126,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Get language name from code
   const getLanguageName = (code: string): string => {
+    if (!code) return "English";
+    
     const language = languages.find(lang => lang.code === code);
     return language ? language.name : "English";
   };
 
   // Set language preference
   const setLanguage = (language: string) => {
+    console.log("Setting language to:", language);
     if (user) {
       const updatedUser = { ...user, language };
       setUser(updatedUser);
@@ -136,6 +144,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         title: "Language Updated",
         description: `Language has been set to ${getLanguageName(language)}`,
       });
+    } else {
+      console.error("Cannot set language: No user is logged in");
     }
   };
 

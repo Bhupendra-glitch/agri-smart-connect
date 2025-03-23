@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Check, Globe } from 'lucide-react';
@@ -8,13 +8,23 @@ import { useAuth, languages } from '@/contexts/AuthContext';
 export function LanguageSelector() {
   const { user, setLanguage, getLanguageName } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(user?.language || 'en');
+  const [selectedLang, setSelectedLang] = useState<string>('en');
+
+  // Update the selected language when user changes
+  useEffect(() => {
+    if (user?.language) {
+      setSelectedLang(user.language);
+    }
+  }, [user]);
 
   const handleLanguageChange = (langCode: string) => {
+    console.log("Language selected:", langCode);
     setSelectedLang(langCode);
     setLanguage(langCode);
     setIsOpen(false);
   };
+
+  const currentLanguageName = getLanguageName(user?.language || 'en');
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -25,7 +35,7 @@ export function LanguageSelector() {
             <span>Language</span>
           </div>
           <div className="text-muted-foreground">
-            {getLanguageName(user?.language || 'en')}
+            {currentLanguageName}
           </div>
         </Button>
       </SheetTrigger>

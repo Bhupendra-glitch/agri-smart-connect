@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
@@ -13,6 +13,13 @@ const LanguageSelection = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  // Update selected language when user changes
+  useEffect(() => {
+    if (user?.language) {
+      setSelectedLanguage(user.language);
+    }
+  }, [user]);
+
   const handleLanguageSelect = (langCode: string) => {
     setSelectedLanguage(langCode);
   };
@@ -22,6 +29,7 @@ const LanguageSelection = () => {
       setIsLoading(true);
       
       // Save language preference
+      console.log("Setting language on continue:", selectedLanguage);
       setLanguage(selectedLanguage);
       
       // Mock API delay
