@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Check if user is stored in local storage
-    const storedUser = localStorage.getItem('agriSmartUser');
+    const storedUser = localStorage.getItem('anajikaUser');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       };
       
       setUser(newUser);
-      localStorage.setItem('agriSmartUser', JSON.stringify(newUser));
+      localStorage.setItem('anajikaUser', JSON.stringify(newUser));
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -105,7 +105,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (user) {
         const updatedUser = { ...user, ...userData };
         setUser(updatedUser);
-        localStorage.setItem('agriSmartUser', JSON.stringify(updatedUser));
+        localStorage.setItem('anajikaUser', JSON.stringify(updatedUser));
       }
       setIsLoading(false);
     } catch (error) {
@@ -130,7 +130,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (user) {
       const updatedUser = { ...user, language };
       setUser(updatedUser);
-      localStorage.setItem('agriSmartUser', JSON.stringify(updatedUser));
+      localStorage.setItem('anajikaUser', JSON.stringify(updatedUser));
       
       toast({
         title: "Language Updated",
@@ -142,7 +142,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Logout
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('agriSmartUser');
+    localStorage.removeItem('anajikaUser');
   };
 
   return (
