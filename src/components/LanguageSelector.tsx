@@ -4,11 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Check, Globe } from 'lucide-react';
 import { useAuth, languages } from '@/contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export function LanguageSelector() {
   const { user, setLanguage, getLanguageName } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState<string>('en');
+  const { t } = useTranslation();
 
   // Update the selected language when user changes
   useEffect(() => {
@@ -32,7 +34,7 @@ export function LanguageSelector() {
         <Button variant="outline" className="flex justify-between w-full">
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
-            <span>Language</span>
+            <span>{t('language.select')}</span>
           </div>
           <div className="text-muted-foreground">
             {currentLanguageName}
@@ -41,7 +43,7 @@ export function LanguageSelector() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Select Language</SheetTitle>
+          <SheetTitle>{t('language.select')}</SheetTitle>
         </SheetHeader>
         <div className="grid gap-3 py-4 max-h-[70vh] overflow-y-auto">
           {languages.map((lang) => (

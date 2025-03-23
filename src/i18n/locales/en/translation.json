@@ -1,0 +1,38 @@
+
+{
+  "app": {
+    "name": "Anajika",
+    "tagline": "Smart Agriculture Solution"
+  },
+  "auth": {
+    "login": "Login",
+    "phoneNumber": "Phone Number",
+    "continue": "Continue",
+    "otpVerification": "OTP Verification",
+    "verifyOtp": "Verify OTP",
+    "resendOtp": "Resend OTP"
+  },
+  "profile": {
+    "title": "Profile",
+    "settings": "Settings",
+    "language": "Language",
+    "fullName": "Full Name",
+    "phoneNumber": "Phone Number",
+    "location": "Location",
+    "logout": "Logout",
+    "loggingOut": "Logging out..."
+  },
+  "language": {
+    "select": "Select Language",
+    "continue": "Continue",
+    "settingLanguage": "Setting Language...",
+    "languageUpdated": "Language has been updated",
+    "chooseLanguage": "Choose Your Language",
+    "appLanguage": "Select your preferred language for the app",
+    "changeAnytime": "You can change your language anytime from the settings"
+  },
+  "common": {
+    "notSet": "Not set",
+    "notAvailable": "Not available"
+  }
+}

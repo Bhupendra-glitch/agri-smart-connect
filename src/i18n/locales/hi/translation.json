@@ -1,0 +1,38 @@
+
+{
+  "app": {
+    "name": "अनाजिका",
+    "tagline": "स्मार्ट कृषि समाधान"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "phoneNumber": "फोन नंबर",
+    "continue": "जारी रखें",
+    "otpVerification": "ओटीपी सत्यापन",
+    "verifyOtp": "ओटीपी सत्यापित करें",
+    "resendOtp": "ओटीपी पुनः भेजें"
+  },
+  "profile": {
+    "title": "प्रोफाइल",
+    "settings": "सेटिंग्स",
+    "language": "भाषा",
+    "fullName": "पूरा नाम",
+    "phoneNumber": "फोन नंबर",
+    "location": "स्थान",
+    "logout": "लॉगआउट",
+    "loggingOut": "लॉगआउट हो रहा है..."
+  },
+  "language": {
+    "select": "भाषा चुनें",
+    "continue": "जारी रखें",
+    "settingLanguage": "भाषा सेट हो रही है...",
+    "languageUpdated": "भाषा अपडेट हो गई है",
+    "chooseLanguage": "अपनी भाषा चुनें",
+    "appLanguage": "ऐप के लिए अपनी पसंदीदा भाषा चुनें",
+    "changeAnytime": "आप सेटिंग्स से किसी भी समय अपनी भाषा बदल सकते हैं"
+  },
+  "common": {
+    "notSet": "सेट नहीं है",
+    "notAvailable": "उपलब्ध नहीं है"
+  }
+}

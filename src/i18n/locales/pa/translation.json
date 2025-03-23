@@ -1,0 +1,15 @@
+
+{
+  "app": {
+    "name": "ਅਨਾਜਿਕਾ",
+    "tagline": "ਸਮਾਰਟ ਖੇਤੀ ਹੱਲ"
+  },
+  "language": {
+    "select": "ਭਾਸ਼ਾ ਚੁਣੋ",
+    "continue": "ਜਾਰੀ ਰੱਖੋ"
+  },
+  "common": {
+    "notSet": "ਸੈੱਟ ਨਹੀਂ ਹੈ",
+    "notAvailable": "ਉਪਲਬਧ ਨਹੀਂ"
+  }
+}

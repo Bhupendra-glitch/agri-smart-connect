@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { useAuth, languages } from '@/contexts/AuthContext';
 import { Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const LanguageSelection = () => {
   const { user, setLanguage } = useAuth();
@@ -12,6 +13,7 @@ const LanguageSelection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   // Update selected language when user changes
   useEffect(() => {
@@ -36,8 +38,8 @@ const LanguageSelection = () => {
       await new Promise(resolve => setTimeout(resolve, 800));
       
       toast({
-        title: "Language Set",
-        description: `Your language preference has been saved.`,
+        title: t("language.languageUpdated"),
+        description: t("language.select"),
       });
       
       // If user is coming from profile setup, go to home, otherwise go back to previous page
@@ -67,9 +69,9 @@ const LanguageSelection = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold">Choose Your Language</h1>
+          <h1 className="text-2xl font-bold">{t('language.chooseLanguage')}</h1>
           <p className="text-muted-foreground mt-2">
-            Select your preferred language for the app
+            {t('language.appLanguage')}
           </p>
         </div>
         
@@ -105,12 +107,12 @@ const LanguageSelection = () => {
             className="w-full h-12 bg-agri-green hover:bg-agri-green-dark text-white font-medium"
             disabled={isLoading}
           >
-            {isLoading ? "Setting Language..." : "Continue"}
+            {isLoading ? t('language.settingLanguage') : t('language.continue')}
           </Button>
         </div>
         
         <p className="text-center text-sm text-muted-foreground">
-          You can change your language anytime from the settings
+          {t('language.changeAnytime')}
         </p>
       </div>
     </div>

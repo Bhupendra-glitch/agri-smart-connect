@@ -1,6 +1,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n/i18n';
 
 // Define user type
 export interface User {
@@ -57,13 +59,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if user is stored in local storage
     const storedUser = localStorage.getItem('anajikaUser');
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        
+        // Set i18n language based on user preference
+        if (parsedUser.language) {
+          i18n.changeLanguage(parsedUser.language);
+        }
       } catch (e) {
         console.error("Error parsing user from localStorage:", e);
         localStorage.removeItem('anajikaUser');
@@ -89,6 +98,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(newUser);
       localStorage.setItem('anajikaUser', JSON.stringify(newUser));
       setIsLoading(false);
+      
+      // Set i18n language
+      i18n.changeLanguage(newUser.language || 'en');
     } catch (error) {
       setIsLoading(false);
       toast({
@@ -111,6 +123,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const updatedUser = { ...user, ...userData };
         setUser(updatedUser);
         localStorage.setItem('anajikaUser', JSON.stringify(updatedUser));
+        
+        // Update i18n language if language is updated
+        if (userData.language) {
+          i18n.changeLanguage(userData.language);
+        }
       }
       setIsLoading(false);
     } catch (error) {
@@ -140,9 +157,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(updatedUser);
       localStorage.setItem('anajikaUser', JSON.stringify(updatedUser));
       
+      // Change i18n language
+      i18n.changeLanguage(language);
+      
       toast({
-        title: "Language Updated",
-        description: `Language has been set to ${getLanguageName(language)}`,
+        title: t("language.languageUpdated"),
+        description: `${t("language.select")}: ${getLanguageName(language)}`,
       });
     } else {
       console.error("Cannot set language: No user is logged in");
