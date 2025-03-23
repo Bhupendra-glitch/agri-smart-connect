@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -88,7 +89,7 @@ const App = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-agri-green-light/20 to-agri-sky-light/20">
         <div className="animate-pulse text-3xl font-semibold text-agri-green">
-          AgriSmart
+          Anajika
         </div>
       </div>
     );
