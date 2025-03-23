@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,7 +23,7 @@ interface AppHeaderProps {
 }
 
 const AppHeader = ({ 
-  title = "AgriSmart", 
+  title = "Anajika", 
   showBackButton = false,
   showNotifications = true 
 }: AppHeaderProps) => {
@@ -78,7 +79,7 @@ const AppHeader = ({
             <SheetContent side="left" className="glass border-r border-r-white/20">
               <div className="flex flex-col h-full">
                 <div className="py-6">
-                  <h2 className="text-xl font-semibold text-agri-green">AgriSmart</h2>
+                  <h2 className="text-xl font-semibold text-agri-green">Anajika</h2>
                 </div>
                 <nav className="space-y-1 flex-1">
                   <MenuItem onClick={() => navigate('/')} icon="home" label="Home" />
@@ -258,4 +259,3 @@ const LogoutButton = () => {
 };
 
 export default AppHeader;
-

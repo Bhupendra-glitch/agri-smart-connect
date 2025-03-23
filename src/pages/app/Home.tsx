@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import AppLayout from '@/components/AppLayout';
 import WeatherCard from '@/components/WeatherCard';
 import { Button } from '@/components/ui/button';
+import { toast } from "@/components/ui/use-toast";
 import {
   CloudRain,
   Leaf,
@@ -19,6 +20,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [userCity, setUserCity] = useState('');
 
   useEffect(() => {
     // Just wait a bit to simulate loading
@@ -26,8 +28,43 @@ const Home = () => {
       setIsLoading(false);
     }, 1000);
     
+    // Try to get user's city if not already available
+    if (!userCity && 'geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=f5cb0b965ea1564c50c6f1b74534d823`);
+          const data = await response.json();
+          if (data && data.length > 0) {
+            setUserCity(data[0].name);
+          }
+        } catch (error) {
+          console.error('Error fetching city:', error);
+          setUserCity('Your City');
+        }
+      });
+    }
+    
     return () => clearTimeout(timeout);
-  }, []);
+  }, [userCity]);
+
+  const handleMicClick = async () => {
+    try {
+      // Request microphone permission
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+      toast({
+        title: "Microphone access granted",
+        description: "You can now use voice search",
+      });
+    } catch (error) {
+      console.error('Microphone permission denied:', error);
+      toast({
+        title: "Microphone access denied",
+        description: "Please allow microphone access to use voice search",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <AppLayout title="Home" activeTab="home">
@@ -45,6 +82,11 @@ const Home = () => {
                 day: 'numeric' 
               })}
             </p>
+            {userCity && (
+              <p className="text-sm text-muted-foreground">
+                Location: {userCity}
+              </p>
+            )}
           </div>
           <Button
             variant="outline"
@@ -64,7 +106,14 @@ const Home = () => {
                 placeholder="Search crops, issues..." 
                 className="w-full h-12 px-4 pr-10 rounded-lg border border-input focus:ring-2 ring-primary/20 transition-all duration-200 bg-white dark:bg-black/20 backdrop-blur-sm"
               />
-              <Mic className="absolute right-3 top-3 h-5 w-5 text-muted-foreground" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="absolute right-2 top-2 h-8 w-8 text-muted-foreground"
+                onClick={handleMicClick}
+              >
+                <Mic className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         )}

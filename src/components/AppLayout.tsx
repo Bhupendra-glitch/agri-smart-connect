@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import AppHeader from '@/components/AppHeader';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +15,7 @@ interface AppLayoutProps {
 
 const AppLayout = ({ 
   children, 
-  title = 'AgriSmart',
+  title = 'Anajika',
   showBackButton = false,
   showNavbar = true,
   showHeader = true,
