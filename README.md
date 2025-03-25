@@ -1,4 +1,4 @@
-# Welcome to ur Anajika project
+# Welcome to our Anajika project
 
 ## Project info
 
